@@ -3,6 +3,7 @@ name: Pandoc PDF
 on:
   # triggered manually
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: write
@@ -19,7 +20,9 @@ jobs:
         run: |
           wget https://gist.githubusercontent.com/rbf/6064734/raw/d7bb7e143d4ecb1324258e422c7ae9cfe2f74ced/generate-pdf
       - name: Install pandoc
-        uses: docker://pandoc/extra:latest-debian
+        # uses: docker://pandoc/extra:latest-debian
+        run: |
+          apt install pandoc texlive-xetex texlive-latex -y
       - name: Run script
         run: |
           chmod +x generate-pdf
