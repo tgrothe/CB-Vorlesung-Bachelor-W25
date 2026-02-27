@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   pandoc_pdf:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout our semester-repo
         uses: actions/checkout@v6
