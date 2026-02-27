@@ -3,23 +3,31 @@ name: Pandoc PDF
 on:
   # triggered manually
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: write
 
 jobs:
   pandoc_pdf:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout our semester-repo
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Download script
-        run: |
-          wget https://gist.githubusercontent.com/rbf/6064734/raw/d7bb7e143d4ecb1324258e422c7ae9cfe2f74ced/generate-pdf
       - name: Install pandoc
-        uses: docker://pandoc/extra:latest-debian
+        # uses: docker://pandoc/extra:latest-debian
+        run: |
+          sudo apt install pandoc texlive-xetex texlive-full -y
       - name: Run script
         run: |
-          generate-pdf --version
+          mkdir targets
+          find lecture -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
+      - name: Publish targets
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: _pdfs
+          publish_dir: targets
+          force_orphan: true
