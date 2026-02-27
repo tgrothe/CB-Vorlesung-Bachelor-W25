@@ -27,3 +27,12 @@ jobs:
         run: |
           chmod +x generate-pdf
           ./generate-pdf --version
+          mkdir -p targets/lecture-target
+          ./generate-pdf lecture targets/lecture-target
+      - name: Publish targets
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: _pdfs
+          publish_dir: targets/
+          force_orphan: true
