@@ -1,0 +1,25 @@
+name: Pandoc PDF
+
+on:
+  # triggered manually
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pandoc_pdf:
+    runs-on: debian-latest
+    steps:
+      - name: Checkout our semester-repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Download script
+        run: |
+          wget https://gist.githubusercontent.com/rbf/6064734/raw/d7bb7e143d4ecb1324258e422c7ae9cfe2f74ced/generate-pdf
+      - name: Install pandoc
+        uses: docker://pandoc/extra:latest-debian
+      - name: Run script
+        run: |
+          generate-pdf --version
