@@ -22,7 +22,7 @@ jobs:
       - name: Install pandoc
         # uses: docker://pandoc/extra:latest-debian
         run: |
-          sudo apt install pandoc texlive-xetex texlive-latex-base texlive-latex-extra texlive-latex-recommended -y
+          sudo apt install pandoc texlive-xetex texlive-full -y
       - name: Run script
         run: |
           chmod +x generate-pdf
