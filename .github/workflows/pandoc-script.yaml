@@ -22,4 +22,5 @@ jobs:
         uses: docker://pandoc/extra:latest-debian
       - name: Run script
         run: |
-          generate-pdf --version
+          chmod +x generate-pdf
+          ./generate-pdf --version
