@@ -23,11 +23,11 @@ jobs:
       - name: Run script
         run: |
           mkdir targets
-          find lecture -name '*.md' -exec pandoc --pdf-engine=xelatex "{}" -o "targets/{}.pdf" \;
+          find lecture -name '*.md' -exec sh -c 'pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
       - name: Publish targets
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: _pdfs
-          publish_dir: targets/
+          publish_dir: targets
           force_orphan: true
