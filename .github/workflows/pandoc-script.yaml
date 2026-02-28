@@ -3,7 +3,6 @@ name: Pandoc PDF
 on:
   # triggered manually
   workflow_dispatch:
-  pull_request:
 
 permissions:
   contents: write
