@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout our semester-repo
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
       - name: Install Pandoc
         uses: pandoc/actions/setup@v1
       - name: Run Pandoc
