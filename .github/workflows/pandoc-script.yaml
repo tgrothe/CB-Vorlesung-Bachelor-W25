@@ -18,7 +18,7 @@ jobs:
         uses: pandoc/actions/setup@v1
       - name: Run Pandoc
         run: |
-          sudo apt install texlive-xelatex -y
+          sudo apt install texlive-xetex -y
           mkdir targets
           find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
       - name: Publish targets
