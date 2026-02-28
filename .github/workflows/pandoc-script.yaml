@@ -19,7 +19,7 @@ jobs:
       - name: Run Pandoc
         run: |
           mkdir targets
-          find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
+          find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc -o targets/"${1%.*}".pdf ${1}' - '{}' \;
       - name: Publish targets
         uses: peaceiris/actions-gh-pages@v4
         with:
