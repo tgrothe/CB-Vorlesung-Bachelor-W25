@@ -13,24 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout our semester-repo
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Install pandoc
-        # uses: docker://pandoc/extra:latest-debian
-        run: |
-          sudo apt install pandoc texlive-xetex texlive-full -y
-      - name: Run script
+        uses: actions/checkout@v7
+      - name: Install Pandoc
+        uses: pandoc/actions/setup@v1
+      - name: Run Pandoc
         run: |
           mkdir targets
-          find lecture -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
-          find homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
-      - name: Publish targets
+          find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;      - name: Publish targets
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: _pdfs
           publish_dir: targets
           destination_dir: targets
-          exclude_assets: '.github,.nojekyll'
           force_orphan: true
