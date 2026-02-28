@@ -3,6 +3,7 @@ name: Pandoc PDF
 on:
   # triggered manually
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: write
@@ -18,7 +19,8 @@ jobs:
       - name: Run Pandoc
         run: |
           mkdir targets
-          find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;      - name: Publish targets
+          find lecture homework -name '*.md' -exec sh -c 'mkdir -p targets/${1%/*} && pandoc --pdf-engine=xelatex -o targets/"${1%.*}".pdf ${1}' - '{}' \;
+      - name: Publish targets
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
